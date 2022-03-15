@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../jbosseap-base/resources
+
+commonLabels:
+  application: sample-a
+
+replicas:
+- name: deployment
+  count: 2
+
+images:
+- name: application-image
+  newName: abkura/jboss-profiler
+  newTag: latest
+
+patches:
+- path: resources/volumes.yaml
+  target:
+    kind: Deployment
+    
+- path: resources/resource-limits.yaml
+  target:
+    kind: Deployment
